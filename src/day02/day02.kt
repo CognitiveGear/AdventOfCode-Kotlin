@@ -90,9 +90,8 @@ fun pointsPerGame2(game: Game) : Int {
 
 fun main() {
     val input = readInput("data")
-    val games = toGames(input)
-    part1(games)
-    part2(games)
+    println(part1(input))
+    println(part2(input))
 }
 
 fun toGames(input: List<String>): List<Game> {
@@ -101,14 +100,16 @@ fun toGames(input: List<String>): List<Game> {
     }
 }
 
-fun part1(input: List<Game>) {
-    println(input.sumOf {
+fun part1(input: List<String>) : Int {
+    val games = toGames(input)
+    return games.sumOf {
         pointsPerGame(it.second, it.first)
-    })
+    }
 }
 
-fun part2(input: List<Game>) {
-    println(input.sumOf {
+fun part2(input: List<String>) : Int {
+    val games = toGames(input)
+    return games.sumOf {
         pointsPerGame2(it)
-    })
+    }
 }
