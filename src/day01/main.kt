@@ -26,7 +26,7 @@ fun main() {
     }
 
     // test if implementation meets criteria from the description, like:
-    val dataInput = readInput("Day01_data")
+    val dataInput = readInput("data")
     val calorieList = calorieList(dataInput)
     println(part1(calorieList))
     println(part2(calorieList))

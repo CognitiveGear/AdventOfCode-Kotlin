@@ -89,7 +89,7 @@ fun pointsPerGame2(game: Game) : Int {
 }
 
 fun main() {
-    val input = readInput("day02_data")
+    val input = readInput("data")
     val games = toGames(input)
     part1(games)
     part2(games)
