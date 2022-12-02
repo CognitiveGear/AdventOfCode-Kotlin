@@ -1,3 +1,7 @@
+package day01
+
+import readInput
+
 fun main() {
 
     fun calorieList(input: List<String>): List<Int> {
@@ -12,10 +16,9 @@ fun main() {
             .map { it.sum() }
     }
 
-    fun part1(list: List<Int>): Pair<Int, Int> {
+    fun part1(list: List<Int>): Int {
         val maxValue = list.max()
-        val maxIndex = list.indexOf(maxValue)
-        return Pair(maxValue, maxIndex)
+        return maxValue
     }
 
     fun part2(list: List<Int>): Int {
