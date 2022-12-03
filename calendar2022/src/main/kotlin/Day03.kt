@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-class Day03 : AdventDay("day03") {
+class Day03 : AdventDay(3, 2022) {
 
     private fun Char.priority(): Int {
         return if (isLowerCase()) {

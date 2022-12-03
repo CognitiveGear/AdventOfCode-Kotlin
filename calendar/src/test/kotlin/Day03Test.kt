@@ -1,1 +1,0 @@
-class Day03Test : AdventDayTest(Day03(), "157", "70")

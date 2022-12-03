@@ -1,22 +1,9 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="Day01" type="JUnit" factoryName="JUnit">
-    <module name="AdventOfCode-Kotlin.calendar.test" />
-    <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-    <option name="ALTERNATIVE_JRE_PATH" value="18" />
-    <option name="PACKAGE_NAME" value="" />
-    <option name="MAIN_CLASS_NAME" value="Day01Test" />
-    <option name="METHOD_NAME" value="" />
-    <option name="TEST_OBJECT" value="class" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/calendar/src/test" />
-    <method v="2">
-      <option name="Make" enabled="true" />
-    </method>
-  </configuration>
   <configuration default="false" name="Day01" type="JetRunConfigurationType">
     <option name="MAIN_CLASS_NAME" value="Day01Kt" />
-    <module name="AdventOfCode-Kotlin.calendar.main" />
+    <module name="AdventOfCode-Kotlin.calendar2022.main" />
     <shortenClasspath name="NONE" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/calendar/src/main" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/calendar2022/src/main" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

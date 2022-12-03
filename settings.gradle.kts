@@ -1,2 +1,2 @@
 rootProject.name = "AdventOfCode-Kotlin"
-include("common", "calendar")
+include("common", "calendar2022")

@@ -1,4 +1,4 @@
-class Day02 : AdventDay("day02") {
+class Day02 : AdventDay(2, 2022) {
 
     enum class Player { X, Y, Z }
     enum class Opponent { A, B, C }

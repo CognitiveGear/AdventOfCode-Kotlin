@@ -1,4 +1,4 @@
-class Day04 : AdventDay("day04") {
+class Day05 : AdventDay(5, 2022) {
     override fun part1(): String {
         return ""
     }
@@ -9,5 +9,5 @@ class Day04 : AdventDay("day04") {
 }
 
 fun main() {
-    Day04().run()
+    Day05().run()
 }

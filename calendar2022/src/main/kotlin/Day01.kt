@@ -1,4 +1,4 @@
-class Day01 : AdventDay("day01") {
+class Day01 : AdventDay(1, 2022) {
 
     private val list = calorieList(input)
 

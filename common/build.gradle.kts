@@ -1,7 +1,7 @@
-plugins {
-    kotlin("jvm") version "1.7.22"
-}
+val ktorVersion : String by rootProject.extra
 
-repositories {
-    mavenCentral()
+dependencies {
+    implementation("io.ktor:ktor-client-core:$ktorVersion")
+    implementation("io.ktor:ktor-client-okhttp:$ktorVersion")
+    implementation("io.ktor:ktor-client-encoding:$ktorVersion")
 }
