@@ -4,41 +4,28 @@ package day03
 import readInput
 
 fun priority(c: Char) : Int {
-    if (c.isLowerCase()) {
-        return c - 'a' + 1
+    return if (c.isLowerCase()) {
+        c - 'a' + 1
     } else {
-        return c - 'A' + 27
+        c - 'A' + 27
     }
 }
 
 fun part1(file: List<String>) : String {
-    var sum = 0
-    for (sack in file) {
-        val numItems = sack.length / 2
-        val comp1 = sack.take(numItems)
-        val comp2 = sack.takeLast(numItems)
-        val set1 = comp1.toSortedSet()
-        val set2 = comp2.toSortedSet()
-        val badItem = set1.intersect(set2).first()
-        sum += priority(badItem)
-    }
-    return sum.toString()
+    return file.sumOf {
+        val numItems = it.length / 2
+        val comp1 = it.take(numItems).toSet()
+        val comp2 = it.takeLast(numItems).toSet()
+        priority (comp1.intersect(comp2).first())
+    }.toString()
 }
 
 fun part2(file: List<String>) : String {
-    var sum = 0
-    val fileMut = file.toMutableList()
-    while (fileMut.size > 0) {
-        val group = fileMut.take(3).map {
-            it.toSortedSet()
-        }
-        repeat(3) {
-            fileMut.removeAt(0)
-        }
-        val badge = group[0].intersect(group[1].intersect(group[2])).first()
-        sum += priority(badge)
-    }
-    return sum.toString()
+    val groups = file.chunked(3)
+    return groups.sumOf {  group ->
+        val sets = group.map { it.toSet() }
+        priority(sets[0].intersect(sets[1].intersect(sets[2])).first())
+    }.toString()
 }
 
 fun main() {
