@@ -11,22 +11,16 @@ fun priority(c: Char) : Int {
     }
 }
 
-fun part1(file: List<String>) : String {
-    return file.sumOf {
+fun part1(file: List<String>) : String =
+    file.sumOf {
         val numItems = it.length / 2
-        val comp1 = it.take(numItems).toSet()
-        val comp2 = it.takeLast(numItems).toSet()
-        priority (comp1.intersect(comp2).first())
+        priority(it.take(numItems).toSet().intersect(it.takeLast(numItems).toSet()).first())
     }.toString()
-}
 
-fun part2(file: List<String>) : String {
-    val groups = file.chunked(3)
-    return groups.sumOf {  group ->
-        val sets = group.map { it.toSet() }
-        priority(sets[0].intersect(sets[1].intersect(sets[2])).first())
+fun part2(file: List<String>) : String =
+    file.chunked(3).sumOf { group ->
+        priority(group.map { it.toSet() }.reduce { a, b -> a.intersect(b) }.first())
     }.toString()
-}
 
 fun main() {
     val dataFile = readInput("data")
