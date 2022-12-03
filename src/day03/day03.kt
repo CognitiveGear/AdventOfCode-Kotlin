@@ -3,23 +3,25 @@ package day03
 
 import readInput
 
-fun priority(c: Char) : Int {
-    return if (c.isLowerCase()) {
-        c - 'a' + 1
+fun Char.priority() : Int {
+    return if (isLowerCase()) {
+        this - 'a' + 1
     } else {
-        c - 'A' + 27
+        this - 'A' + 27
     }
 }
 
+fun List<String>.commonItemPriority() : Int =
+    this.map { it.toSet() }.reduce { a, b -> a intersect b }.first().priority()
+
 fun part1(file: List<String>) : String =
-    file.sumOf {
-        val numItems = it.length / 2
-        priority(it.take(numItems).toSet().intersect(it.takeLast(numItems).toSet()).first())
+    file.sumOf { elf ->
+        elf.chunked(elf.length / 2).commonItemPriority()
     }.toString()
 
 fun part2(file: List<String>) : String =
     file.chunked(3).sumOf { group ->
-        priority(group.map { it.toSet() }.reduce { a, b -> a.intersect(b) }.first())
+        group.commonItemPriority()
     }.toString()
 
 fun main() {
