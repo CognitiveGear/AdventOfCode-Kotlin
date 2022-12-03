@@ -12,13 +12,13 @@ class Day03KtTest {
     fun testPart1() {
         val result = part1(testFile)
         println("part1 == $result")
-        assert(result == "")
+        assert(result == "157")
     }
 
     @Test
     fun testPart2() {
         val result = part2(testFile)
         println("part2 == $result")
-        assert(result == "")
+        assert(result == "70")
     }
 }
