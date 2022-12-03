@@ -6,7 +6,7 @@ import java.io.File
 
 class Day03KtTest {
 
-    val testFile = File("./src/day03", "test.txt").readLines()
+    private val testFile = File("./src/day03", "test.txt").readLines()
 
     @Test
     fun testPart1() {

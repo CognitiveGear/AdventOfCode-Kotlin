@@ -1,0 +1,21 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Day03" type="JUnit" factoryName="JUnit">
+    <module name="AdventOfCode-Kotlin.main" />
+    <option name="PACKAGE_NAME" value="day03" />
+    <option name="MAIN_CLASS_NAME" value="day03.Day03KtTest" />
+    <option name="METHOD_NAME" value="" />
+    <option name="TEST_OBJECT" value="class" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+  <configuration default="false" name="Day03" type="JetRunConfigurationType">
+    <option name="MAIN_CLASS_NAME" value="day03.Day03Kt" />
+    <module name="AdventOfCode-Kotlin.main" />
+    <shortenClasspath name="NONE" />
+    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/src/day03" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>

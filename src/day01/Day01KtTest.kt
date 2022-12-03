@@ -1,12 +1,12 @@
 package day01
 
 import org.junit.jupiter.api.Test
-
 import java.io.File
 
 class Day01KtTest {
 
     private val calories = calorieList(File("./src/day01/", "test.txt").readLines())
+
     @Test
     fun testPart1() {
         val result = part1(calories)
