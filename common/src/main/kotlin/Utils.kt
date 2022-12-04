@@ -45,7 +45,8 @@ fun inputSequence(name: String, callback: (Sequence<String>) -> Unit) {
 }
 
 suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : List<String> {
-    val dataFile = File(dataDir, String.format("day%02d.txt", day))
+    val dayFileName = String.format("day%02d.txt", day)
+    val dataFile = File(dataDir, dayFileName)
     if (dataFile.exists()) {
         return dataFile.readLines()
     }
@@ -63,30 +64,24 @@ suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : List<String> {
         println(DELAY_TIME)
         throw TimeLimitExceededException("You can't time-travel, and it's too soon to wait to download the input.")
     }
-    // We're now committed to the download attempt
-    println("Attempting to Fetch data...")
-    val result: Deferred<String>
-    withContext(Dispatchers.IO) {
-        result = async {
-           AoCWebScraper(token).use {
-               it.grabInput(year, day)
-           }
-        }
-    }
+    // We're committed to the download attempt
+    println("Fetching...")
+    val scraper = AoCWebScraper(token)
     if (difference.seconds > 0) {
         println("Waiting until puzzle is out...")
         delay(1000L * difference.seconds + WAIT_MIN + (Math.random() * WAIT_MUL).toLong())
     }
-    val data = result.await()
-    val writeJob : Job
-    withContext(Dispatchers.IO) {
-        writeJob = launch {
+    val data = scraper.use {
+        it.grabInput(year, day)
+    }
+    return withContext(Dispatchers.Default) {
+        launch(Dispatchers.IO) {
             dataFile.writeText(data.dropLastWhile { it == '\n' })
         }
+        async {
+            data.lines().dropLastWhile { it == "\n" || it == "" }
+        }.await()
     }
-    val lines = data.lines().dropLastWhile { it == "\n" || it == "" }
-    writeJob.join()
-    return lines
 }
 
 class AoCWebScraper(private val sessionToken: String) : Closeable {
