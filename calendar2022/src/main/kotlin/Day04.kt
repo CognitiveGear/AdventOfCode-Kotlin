@@ -4,13 +4,8 @@ class Day04 : AdventDay(4, 2022) {
 
     private infix fun IntRange.overlaps(other: IntRange) = other.first in this || other.last in this
 
-    private fun String.toElfPair() : List<IntRange> {
-        return split(',').map { elf ->
-            elf.split('-').map(String::toInt).let {
-                (a, b) -> (a..b)
-            }
-        }
-    }
+    private fun String.toElfPair() : List<IntRange> = grabInts().chunked(2).map { it.first()..it.last() }
+
     override fun part1(): String {
         return input.count { line ->
             val (a, b) = line.toElfPair()

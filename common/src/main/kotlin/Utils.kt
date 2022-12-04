@@ -16,7 +16,7 @@ import java.io.FileNotFoundException
 import java.math.BigInteger
 import java.security.MessageDigest
 import java.time.Duration
-import java.time.ZoneId
+import java.time.ZoneOffset
 import java.time.ZonedDateTime
 import java.util.*
 import javax.naming.TimeLimitExceededException
@@ -28,8 +28,6 @@ private const val WAIT_MIN = 900L
 private const val WAIT_MUL = 500.0
 // Seconds under which we switch into wait and pounce mode.
 private const val DELAY_TIME = 100L
-// We use the Cayman Islands timezone because it is consistently UTC-5
-private const val TIME_ZONE_ID = "America/Cayman"
 /**
  * Reads lines from the given input txt file.
  */
@@ -44,6 +42,8 @@ fun inputSequence(name: String, callback: (Sequence<String>) -> Unit) {
         }
 }
 
+fun String.grabInts() : List<Int> = Regex("""\d+""").findAll(this).toList().map { it.value.toInt() }
+
 suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : List<String> {
     val dayFileName = String.format("day%02d.txt", day)
     val dataFile = File(dataDir, dayFileName)
@@ -55,13 +55,11 @@ suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : List<String> {
         throw FileNotFoundException("You don't have a day input, but you don't have a sessionToken.txt either.")
     }
     val token = tokenFile.readText()
-    val est = ZoneId.of(TIME_ZONE_ID)
+    val est = ZoneOffset.ofHours(-5)
     val timeNowEST = ZonedDateTime.now().withZoneSameInstant(est)
     val timePuzzle = ZonedDateTime.of(year, 12, day, 0, 0, 0, 0, est)
     val difference = Duration.between(timeNowEST, timePuzzle)
     if (difference.seconds > DELAY_TIME) {
-        println(difference.seconds)
-        println(DELAY_TIME)
         throw TimeLimitExceededException("You can't time-travel, and it's too soon to wait to download the input.")
     }
     // We're committed to the download attempt
