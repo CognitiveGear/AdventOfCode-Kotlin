@@ -10,20 +10,24 @@ class Day03 : AdventDay(3, 2022) {
         }
     }
 
+    private val lines = input.split('\n')
+
     private fun List<String>.commonItemPriority(): Int =
         this.map { it.toSet() }.reduce { a, b -> a intersect b }.single().priority()
 
     override fun part1(): String =
-        input.sumOf { elf ->
+        lines.sumOf { elf ->
             elf.chunked(elf.length / 2).commonItemPriority()
         }.toString()
 
     override fun part2(): String =
-        input.chunked(3).sumOf { group ->
+        lines.chunked(3).sumOf { group ->
             group.commonItemPriority()
         }.toString()
 }
 
 fun main() {
-    Day03().run()
+    val day = Day03()
+    println(day.part1())
+    println(day.part2())
 }

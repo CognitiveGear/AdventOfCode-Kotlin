@@ -27,7 +27,7 @@ private const val WAIT_MIN = 900L
 // other people are running this or similar schemes from similar locations.
 private const val WAIT_MUL = 500.0
 // Seconds under which we switch into wait and pounce mode.
-private const val DELAY_TIME = 100L
+private const val DELAY_TIME = 120L
 /**
  * Reads lines from the given input txt file.
  */
@@ -44,11 +44,11 @@ fun inputSequence(name: String, callback: (Sequence<String>) -> Unit) {
 
 fun String.grabInts() : List<Int> = Regex("""\d+""").findAll(this).toList().map { it.value.toInt() }
 
-suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : List<String> {
+suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : String {
     val dayFileName = String.format("day%02d.txt", day)
     val dataFile = File(dataDir, dayFileName)
     if (dataFile.exists()) {
-        return dataFile.readLines()
+        return dataFile.readText()
     }
     val tokenFile = File(dataDir, "sessionToken.txt")
     if (!tokenFile.exists()) {
@@ -72,14 +72,8 @@ suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : List<String> {
     val data = scraper.use {
         it.grabInput(year, day)
     }
-    return withContext(Dispatchers.Default) {
-        launch(Dispatchers.IO) {
-            dataFile.writeText(data.dropLastWhile { it == '\n' })
-        }
-        async {
-            data.lines().dropLastWhile { it == "\n" || it == "" }
-        }.await()
-    }
+    dataFile.writeText(data.dropLastWhile { it == '\n' })
+    return data
 }
 
 class AoCWebScraper(private val sessionToken: String) : Closeable {

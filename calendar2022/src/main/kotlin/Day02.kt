@@ -56,7 +56,7 @@ class Day02 : AdventDay(2, 2022) {
 
     private fun String.toGame(): Game = Game(Opponent.values()[this[0] - 'A'], Player.values()[this[2] - 'X'])
 
-    private val games = input.map { it.toGame() }
+    private val games = input.split('\n').map { it.toGame() }
 
     override fun part1(): String =
         games.sumOf {
@@ -70,5 +70,7 @@ class Day02 : AdventDay(2, 2022) {
 }
 
 fun main() {
-    Day02().run()
+    val day = Day02()
+    day.part1()
+    day.part2()
 }

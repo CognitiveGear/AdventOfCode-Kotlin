@@ -10,14 +10,14 @@ class Day04 : AdventDay(4, 2022) {
         substringBefore(',').toElf() to substringAfter(',').toElf()
 
     override fun part1(): String {
-        return input.count { line ->
+        return input.split('\n').count { line ->
             val (a, b) = line.toElfPair()
             a in b || b in a
         }.toString()
     }
 
     override fun part2(): String {
-        return input.count { line ->
+        return input.split('\n').count { line ->
             val (a, b) = line.toElfPair()
             a overlaps b || b overlaps a
         }.toString()
@@ -25,5 +25,7 @@ class Day04 : AdventDay(4, 2022) {
 }
 
 fun main() {
-    Day04().run()
+    val day = Day04()
+    println(day.part1())
+    println(day.part2())
 }

@@ -2,9 +2,8 @@ class Day01 : AdventDay(1, 2022) {
 
     private val list = calorieList(input)
 
-    private fun calorieList(input: List<String>): List<Int> {
+    private fun calorieList(input: String): List<Int> {
         return input
-            .joinToString("\n")
             .split("\n\n")
             .map { subString ->
                 subString.split('\n')
@@ -21,5 +20,7 @@ class Day01 : AdventDay(1, 2022) {
 }
 
 fun main() {
-    Day01().run()
+    val day = Day01()
+    println(day.part1())
+    println(day.part1())
 }
