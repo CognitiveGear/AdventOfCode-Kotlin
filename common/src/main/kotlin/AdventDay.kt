@@ -1,11 +1,19 @@
+@file:Suppress("unused")
+
 import kotlinx.coroutines.runBlocking
 import java.io.File
 
-abstract class AdventDay(day: Int, year: Int) {
+abstract class AdventDay(val input: List<String>) {
 
-    protected val input = runBlocking {
-        checkOrGetInput(year, day, File("data"))
-    }
+    constructor(year: Int, day: Int) : this(
+        runBlocking {
+            checkOrGetInput(year, day, File("data"))
+        }
+    )
+    constructor(fileName: String) : this (
+        inputList(fileName)
+    )
+
     abstract fun part1() : String
     abstract fun part2() : String
     fun run() {

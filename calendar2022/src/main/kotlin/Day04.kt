@@ -1,15 +1,18 @@
 class Day04 : AdventDay(4, 2022) {
 
-    private infix fun IntRange.contains(other: IntRange) = other.first in this && other.last in this
+    private operator fun IntRange.contains(other: IntRange) = other.first in this && other.last in this
 
     private infix fun IntRange.overlaps(other: IntRange) = other.first in this || other.last in this
 
-    private fun String.toElfPair() : List<IntRange> = grabInts().chunked(2).map { it.first()..it.last() }
+    private fun String.toElf() : IntRange =
+        substringBefore('-').toInt()..substringAfter('-').toInt()
+    private fun String.toElfPair() : Pair<IntRange, IntRange> =
+        substringBefore(',').toElf() to substringAfter(',').toElf()
 
     override fun part1(): String {
         return input.count { line ->
             val (a, b) = line.toElfPair()
-            a contains b || b contains a
+            a in b || b in a
         }.toString()
     }
 

@@ -1,16 +1,16 @@
-# AdventOfCode-Kotlin
+# AdventOfCode-Kotlin (2022)
 
 My attempt at the [Advent of Code][aoc] in Kotlin. Originally based on using Jetbrain's
 [Advent of Code Kotlin Template][template], but a lot has changed since then. Each [AdventDay][ad] class can
-now download the appropriate day input (IF the time is right, AND it doesn't already exist, AND you've provided a
-session token inside 'sessionToken.txt' inside ~Working Directory~/data, AND if that day's input doesn't already exist
-inside that same data subdirectory).
+now download the appropriate day input (IF the time is right, AND you've provided a session token inside '
+sessionToken.txt' inside $WORKING-DIRECTORY$/data, AND if that day's input doesn't already exist inside that same data
+subdirectory).
 
 The kotlin/ktor web-scraper used to grab the input can also be run < 100 seconds before release, upon which it will
-wait for your clock to hit midnight EST, and then grab the input for you automatically (it has a small semi-random delay
-to limit AoC server congestion).
+wait for your clock to hit midnight EST, then grab the input. The timer downloader routine has a small semi-random
+delay that it will wait extra for, to limit initial AoC server congestion.
 
-Run configurations are stored in .run, which should be detected by IntelliJ, otherwise you'll have to correctly set up
+Run configurations are stored in .run, which should be detected by IntelliJ. Otherwise you must set up
 the main classes + configurations yourself.
 
 ### TODO
