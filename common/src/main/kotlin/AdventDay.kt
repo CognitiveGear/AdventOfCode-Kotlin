@@ -11,4 +11,9 @@ abstract class AdventDay(val input: String) {
 
     abstract fun part1() : String
     abstract fun part2() : String
+
+    fun main() {
+        println(part1())
+        println(part2())
+    }
 }

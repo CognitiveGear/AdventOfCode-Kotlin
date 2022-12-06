@@ -1,4 +1,4 @@
-class Day04 : AdventDay(4, 2022) {
+class Day04 : AdventDay(2022, 4) {
 
     private operator fun IntRange.contains(other: IntRange) = other.first in this && other.last in this
 
@@ -25,7 +25,5 @@ class Day04 : AdventDay(4, 2022) {
 }
 
 fun main() {
-    val day = Day04()
-    println(day.part1())
-    println(day.part2())
+    Day04().main()
 }

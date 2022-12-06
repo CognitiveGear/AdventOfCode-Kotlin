@@ -1,4 +1,4 @@
-class Day01 : AdventDay(1, 2022) {
+class Day01 : AdventDay(2022, 1) {
 
     private val list = calorieList(input)
 
@@ -20,7 +20,5 @@ class Day01 : AdventDay(1, 2022) {
 }
 
 fun main() {
-    val day = Day01()
-    println(day.part1())
-    println(day.part1())
+    Day01().main()
 }

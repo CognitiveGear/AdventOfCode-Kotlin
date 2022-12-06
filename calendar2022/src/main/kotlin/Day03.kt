@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-class Day03 : AdventDay(3, 2022) {
+class Day03 : AdventDay(2022, 3) {
 
     private fun Char.priority(): Int {
         return if (isLowerCase()) {
@@ -27,7 +27,5 @@ class Day03 : AdventDay(3, 2022) {
 }
 
 fun main() {
-    val day = Day03()
-    println(day.part1())
-    println(day.part2())
+    Day03().main()
 }

@@ -35,13 +35,10 @@ class Day05 : AdventDay(2022, 5) {
     private fun processInput(){
         val (crane, instructions) = input.split("\n\n")
         // Deal with the crane state
-        crane.split('\n').reversed().drop(1).forEach {
-            for (i in 1..it.length step 4) {
-                if (it[i].isLetter()) {
-                    val index = (i - 1) / 4
-                    craneState1[index].push(it[i])
-                    craneState2[index].add(it[i])
-                }
+        crane.split('\n').reversed().drop(1).forEach { line ->
+            line.slice(1..line.length step 4).withIndex().filter { it.value.isLetter() }.forEach {
+                craneState1[it.index].push(it.value)
+                craneState2[it.index].add(it.value)
             }
         }
         // Deal with the instructions
@@ -77,7 +74,5 @@ class Day05 : AdventDay(2022, 5) {
 }
 
 fun main() {
-    val day = Day05()
-    println(day.part1())
-    println(day.part2())
+    Day05().main()
 }

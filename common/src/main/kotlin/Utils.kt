@@ -26,8 +26,8 @@ private const val WAIT_MIN = 900L
 // Will pick and random value from (0, WAIT_MUL) and add that to the wait time above, to limit blocking in case
 // other people are running this or similar schemes from similar locations.
 private const val WAIT_MUL = 500.0
-// Seconds under which we switch into wait and pounce mode.
-private const val DELAY_TIME = 120L
+// Seconds under which we switch into wait and pounce mode (default 5 minutes).
+private const val DELAY_TIME = 300L
 /**
  * Reads lines from the given input txt file.
  */
@@ -71,8 +71,8 @@ suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : String {
     }
     val data = scraper.use {
         it.grabInput(year, day)
-    }
-    dataFile.writeText(data.dropLastWhile { it == '\n' })
+    }.dropLastWhile { it == '\n' }
+    dataFile.writeText(data)
     return data
 }
 

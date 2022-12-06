@@ -1,4 +1,4 @@
-class Day02 : AdventDay(2, 2022) {
+class Day02 : AdventDay(2022, 2) {
 
     enum class Player { X, Y, Z }
     enum class Opponent { A, B, C }
@@ -70,7 +70,5 @@ class Day02 : AdventDay(2, 2022) {
 }
 
 fun main() {
-    val day = Day02()
-    day.part1()
-    day.part2()
+    Day02().main()
 }
