@@ -82,6 +82,7 @@ done
 
 APP_HOME=$( cd "${APP_HOME:-./}" && pwd -P ) || exit
 
+APP_NAME="Gradle"
 APP_BASE_NAME=${0##*/}
 
 # Add default JVM options here. You can also use JAVA_OPTS and GRADLE_OPTS to pass JVM options to this script.
@@ -142,14 +143,12 @@ fi
 if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
     case $MAX_FD in #(
       max*)
-        # shellcheck disable=SC2039
         MAX_FD=$( ulimit -H -n ) ||
             warn "Could not query maximum file descriptor limit"
     esac
     case $MAX_FD in  #(
       '' | soft) :;; #(
       *)
-        # shellcheck disable=SC2039
         ulimit -n "$MAX_FD" ||
             warn "Could not set maximum file descriptor limit to $MAX_FD"
     esac
