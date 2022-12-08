@@ -4,14 +4,12 @@ plugins {
     kotlin("jvm") version "1.7.22"
 }
 
-allprojects {
+subprojects {
+    apply(plugin = "org.jetbrains.kotlin.jvm")
+
     repositories {
         mavenCentral()
     }
-}
-
-subprojects {
-    apply(plugin = "org.jetbrains.kotlin.jvm")
 
     dependencies {
         implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.22")

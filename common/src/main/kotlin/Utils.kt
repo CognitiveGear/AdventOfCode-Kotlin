@@ -5,9 +5,7 @@ import io.ktor.client.call.*
 import io.ktor.client.engine.okhttp.*
 import io.ktor.client.plugins.*
 import io.ktor.client.plugins.compression.*
-import io.ktor.client.plugins.cookies.*
 import io.ktor.client.request.*
-import io.ktor.client.statement.*
 import io.ktor.http.*
 import kotlinx.coroutines.*
 import java.io.Closeable
@@ -18,7 +16,6 @@ import java.security.MessageDigest
 import java.time.Duration
 import java.time.ZoneOffset
 import java.time.ZonedDateTime
-import java.util.*
 import javax.naming.TimeLimitExceededException
 
 // Milliseconds after release time that we will wait, before trying to grab input.
