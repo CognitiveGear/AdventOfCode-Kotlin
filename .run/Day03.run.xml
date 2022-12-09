@@ -3,7 +3,6 @@
     <option name="MAIN_CLASS_NAME" value="Day03Kt" />
     <module name="AdventOfCode-Kotlin.calendar2022.main" />
     <shortenClasspath name="NONE" />
-    <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/calendar2022/src/main" />
     <method v="2">
       <option name="Make" enabled="true" />
     </method>

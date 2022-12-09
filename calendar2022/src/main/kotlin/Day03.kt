@@ -10,7 +10,7 @@ class Day03 : AdventDay(2022, 3) {
         }
     }
 
-    private val lines = input.split('\n')
+    private val lines = input.lines()
 
     private fun List<String>.commonItemPriority(): Int =
         this.map { it.toSet() }.reduce { a, b -> a intersect b }.single().priority()
