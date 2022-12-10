@@ -16,7 +16,6 @@ class Day08 : AdventDay(2022, 8) {
         }
     }
 
-
     override fun part1(): String {
         val visible : MutableSet<Pair<Int, Int>> = mutableSetOf()
         fun IntRange.visibilitySweep(coordMap : (Int) -> Pair<Int, Int>) {

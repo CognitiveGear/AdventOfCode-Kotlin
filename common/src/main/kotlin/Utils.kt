@@ -39,7 +39,12 @@ fun inputSequence(name: String, callback: (Sequence<String>) -> Unit) {
         }
 }
 
-fun String.grabInts() : List<Int> = Regex("""\d+""").findAll(this).toList().map { it.value.toInt() }
+fun grabDayInput(year : Int, day: Int) : String =
+    runBlocking {
+        checkOrGetInput(year, day, File("/data"))
+    }
+
+fun String.grabInts() : List<Int> = Regex("""-?\d+""").findAll(this).toList().map { it.value.toInt() }
 
 suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : String {
     val dayFileName = String.format("day%02d.txt", day)
