@@ -112,6 +112,8 @@ class AoCWebScraper(private val sessionToken: String) : Closeable {
         client.close()
     }
 }
+
+fun Int.square() = this * this
 /**
  * Converts string to md5 hash.
  */

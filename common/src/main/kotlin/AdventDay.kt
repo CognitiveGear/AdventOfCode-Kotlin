@@ -3,6 +3,8 @@ import java.io.File
 
 abstract class AdventDay(val input: String) {
 
+    constructor(testDay: Int) : this(File("data", "day${testDay}Test.txt").readText())
+
     constructor(year: Int, day: Int) : this(
         runBlocking {
             checkOrGetInput(year, day, File("data"))
