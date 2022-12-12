@@ -41,6 +41,20 @@ class Grid<T>(val data : List<MutableList<T>>) {
             }
         }
     }
+    fun <R> map(action: (T) -> R) : Grid<R> =
+        Grid(
+            data.map { gridRow ->
+                gridRow.map(action).toMutableList()
+            }
+        )
+    fun <R> mapIndexed(action: (Int, Int, T) -> R) : Grid<R> =
+        Grid(
+            data.mapIndexed{ row, gridRow ->
+                gridRow.mapIndexed{ col, t ->
+                    action(row, col, t)
+                }.toMutableList()
+            }
+        )
     fun getPosOf(t : T) : Set<Point> {
         val set = mutableSetOf<Point>()
         for (row in 0 until maxRow) {
@@ -52,26 +66,10 @@ class Grid<T>(val data : List<MutableList<T>>) {
         }
         return set
     }
-    fun l1Neighbors(p: Point) : Sequence<Point> {
-        return sequenceOf(
-            Point(p.x - 1, p.y),
-            Point(p.x + 1, p.y),
-            Point(p.x, p.y + 1),
-            Point(p.x, p.y - 1)
-        ).filter(this::containsIndex)
-    }
-    fun lInfNeighbors(p: Point) : Sequence<Point> {
-        return sequenceOf(
-            Point(p.x - 1, p.y - 1),
-            Point(p.x - 1, p.y),
-            Point(p.x - 1, p.y + 1),
-            Point(p.x, p.y - 1),
-            Point(p.x, p.y),
-            Point(p.x, p.y + 1),
-            Point(p.x + 1, p.y - 1),
-            Point(p.x + 1, p.y),
-            Point(p.x + 1, p.y + 1)
-        ).filter(this::containsIndex)
-    }
-    override fun toString(): String = data.joinToString("\n") { it.toString() }
+    override fun toString(): String =
+        data.joinToString("\n") { gridRow ->
+            gridRow.joinToString("") {
+                it.toString()
+            }
+        }
 }

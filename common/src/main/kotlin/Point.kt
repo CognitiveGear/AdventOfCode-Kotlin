@@ -16,13 +16,32 @@ class Point(val x: Int, val y: Int) : Collection<Int> {
      * Also called the taxicab distance, or Manhattan distance. Gives the distance between two points
      * while only travelling across adjacent squares (excluding diagonals).
      */
-    fun l1Norm(arg: Point) = (x - arg.x).absoluteValue + (y - arg.y).absoluteValue
+    infix fun l1Norm(arg: Point) = (x - arg.x).absoluteValue + (y - arg.y).absoluteValue
+    fun l1Neighbors() : Sequence<Point> =
+        sequence {
+            yield(Point(x - 1, y))
+            yield(Point(x + 1, y))
+            yield(Point(x, y - 1))
+            yield(Point(x, y + 1))
+        }
 
     /**
      * L-Inf norm, also called the Chebyshev distance. Gives the distance between two points when traveling
-     * across all adjacent squares (including diagonals).
+     * across all touching squares (including diagonals).
      */
-    fun lInfNorm(arg: Point) = max((x - arg.x).absoluteValue, (y - arg.y).absoluteValue)
+    infix fun lInfNorm(arg: Point) = max((x - arg.x).absoluteValue, (y - arg.y).absoluteValue)
+
+    fun lInfNeighbors() : Sequence<Point> =
+        sequence {
+            yield(Point(x - 1, y - 1))
+            yield(Point(x - 1, y))
+            yield(Point(x - 1, y + 1))
+            yield(Point(x, y - 1))
+            yield(Point(x, y + 1))
+            yield(Point(x + 1, y - 1))
+            yield(Point(x + 1, y))
+            yield(Point(x + 1, y + 1))
+        }
     /**
      * Will return Greater if this value has any coordinate larger than the argument, but only equal when they
      * are exactly equal.

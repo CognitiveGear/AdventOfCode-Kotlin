@@ -1,3 +1,7 @@
+@file:Suppress("unused")
+
+import kotlin.time.ExperimentalTime
+
 class Day12 : AdventDay(2022, 12) {
 
     private val sPos = inputGrid.getPosOf('S').first()
@@ -13,30 +17,32 @@ class Day12 : AdventDay(2022, 12) {
             }
         }
 
+    private fun validNeighbors(current : Point) : Sequence<Point> =
+        current.l1Neighbors().filter {
+            inputGrid.containsIndex(it) && inputGrid[current].elevation() <= (inputGrid[it].elevation() + 1)
+        }
+
+    @OptIn(ExperimentalTime::class)
     override fun part1(): String {
-        return BreadthFirst (
-            sPos,
-            compareBy { it.size + it.last().l1Norm(ePos) },
-            { current ->
-                inputGrid.l1Neighbors(current).filter { neighbor ->
-                    inputGrid[neighbor].elevation() <= (inputGrid[current].elevation() + 1)
-                }
-            },
-            { it == ePos }
-        ).bestPath.size.let { it - 1 }.toString()
+        val dijkstra: Dijkstra<Point> =
+            Dijkstra(
+                ePos,
+                ::validNeighbors,
+                { it == sPos },
+                vertexCost = { it l1Norm sPos },
+            )
+        return dijkstra.bestPath.size.let { it - 1 }.toString()
     }
 
+    @OptIn(ExperimentalTime::class)
     override fun part2(): String {
-        return BreadthFirst (
-            ePos,
-            compareBy { it.size },
-            { current ->
-                inputGrid.l1Neighbors(current).filter { neighbor ->
-                    inputGrid[current].elevation() <= (inputGrid[neighbor].elevation() + 1)
-                }
-            },
-            { inputGrid[it] == 'a' }
-        ).bestPath.size.let { it - 1 }.toString()
+        val dijkstra : Dijkstra<Point> =
+            Dijkstra(
+                ePos,
+                ::validNeighbors,
+                { inputGrid[it] == 'a' || it == sPos },
+            )
+        return dijkstra.bestPath.size.let { it - 1 }.toString()
     }
 }
 
