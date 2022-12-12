@@ -56,7 +56,6 @@ suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : String {
     if (!tokenFile.exists()) {
         throw FileNotFoundException("You don't have a day input, but you don't have a sessionToken.txt either.")
     }
-    val token = tokenFile.readText()
     val est = ZoneOffset.ofHours(-5)
     val timeNowEST = ZonedDateTime.now().withZoneSameInstant(est)
     val timePuzzle = ZonedDateTime.of(year, 12, day, 0, 0, 0, 0, est)
@@ -66,7 +65,7 @@ suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : String {
     }
     // We're committed to the download attempt
     println("Fetching...")
-    val scraper = AoCWebScraper(token)
+    val scraper = AoCWebScraper(tokenFile.readText())
     if (difference.seconds > 0) {
         println("Waiting until puzzle is out...")
         delay(1000L * difference.seconds + WAIT_MIN + (Math.random() * WAIT_MUL).toLong())

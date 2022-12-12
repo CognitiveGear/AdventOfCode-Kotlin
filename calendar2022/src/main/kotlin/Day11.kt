@@ -35,7 +35,7 @@ class Day11 : AdventDay( 2022, 11) {
         val numOfMonkeys = initialItems.size
         inspects = MutableList(numOfMonkeys) { 0L }
         divisors = lines.map { monkey -> monkey[3].grabInts().first().toLong() }
-        lowestCommonMultiple = divisors.fold(1L) { acc, l -> acc * l }
+        lowestCommonMultiple = divisors.reduce(Long::times)
         throwToTrue = lines.map { monkey -> monkey[4].grabInts().first() }
         throwToFalse = lines.map { monkey -> monkey[5].grabInts().first() }
         operations = lines.map { monkey ->
@@ -56,10 +56,7 @@ class Day11 : AdventDay( 2022, 11) {
         }
     }
 
-    private fun List<Long>.monkeyBusiness() : String {
-        val bigTwo = sortedDescending().take(2)
-        return (bigTwo[0] * bigTwo[1]).toString()
-    }
+    private fun List<Long>.monkeyBusiness() : String = sortedDescending().take(2).reduce(Long::times).toString()
 
     override fun part1(): String {
         worryDivisor = true

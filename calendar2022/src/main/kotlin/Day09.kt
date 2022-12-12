@@ -32,7 +32,6 @@ class Day09 : AdventDay(2022, 9) {
     }
 
     init {
-        val lines = input.lines()
         val ropeCallOrder = knots.windowed(2, 1)
         fun List<List<Knot>>.timeEvolution(diffX: Int, diffY: Int, number: Int) {
             repeat(number) {

@@ -56,7 +56,7 @@ class Day02 : AdventDay(2022, 2) {
 
     private fun String.toGame(): Game = Game(Opponent.values()[this[0] - 'A'], Player.values()[this[2] - 'X'])
 
-    private val games = input.split('\n').map { it.toGame() }
+    private val games = lines.map { it.toGame() }
 
     override fun part1(): String =
         games.sumOf {

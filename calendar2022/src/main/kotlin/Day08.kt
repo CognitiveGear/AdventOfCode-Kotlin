@@ -5,7 +5,7 @@ class Day08 : AdventDay(2022, 8) {
 
     private val treeGrid : List<List<Int>>
     init {
-        input.lines().let {
+        lines.let {
             maxRow = it.size - 1
             maxCol = it.first().length - 1
             treeGrid = List(maxRow + 1) {row ->

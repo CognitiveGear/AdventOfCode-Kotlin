@@ -24,9 +24,9 @@ class Day07 : AdventDay(2022, 7) {
 
     private var allDirs = mutableListOf(fs)
 
-    private fun processInput() {
+    init {
         var currentDir = fs
-        for (line in input.lineSequence()) {
+        lines.forEach { line ->
             when (line.take(3)) {
                 "$ c" -> {
                     line.drop(5).let {
@@ -47,10 +47,6 @@ class Day07 : AdventDay(2022, 7) {
                 }
             }
         }
-    }
-
-    init {
-        processInput()
         fs.totalSize
         allDirs.sortBy { it.totalSize }
     }

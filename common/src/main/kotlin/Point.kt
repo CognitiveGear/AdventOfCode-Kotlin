@@ -3,8 +3,6 @@
 import kotlin.math.absoluteValue
 import kotlin.math.max
 
-val ORIGIN = Point(0, 0)
-
 class Point(val x: Int, val y: Int) : Collection<Int> {
     operator fun plus(arg: Int) = Point(x + arg, y + arg)
     operator fun plus(arg: Point) = Point(x + arg.x, y + arg.y)
