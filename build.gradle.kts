@@ -2,6 +2,7 @@ val ktorVersion by extra { "2.1.3" }
 
 plugins {
     kotlin("jvm") version "1.7.22"
+    kotlin("plugin.serialization") version "1.7.22"
 }
 
 subprojects {
