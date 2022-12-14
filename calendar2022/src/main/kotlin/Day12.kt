@@ -20,7 +20,7 @@ class Day12 : AdventDay(2022, 12) {
 
     private fun validNeighbors(current : Point) : Sequence<Point> =
         current.l1Neighbors().filter {
-            inputGrid.containsIndex(it) && inputGrid[current].elevation() <= (inputGrid[it].elevation() + 1)
+            inputGrid.contains(it) && inputGrid[current].elevation() <= (inputGrid[it].elevation() + 1)
         }
 
     @OptIn(ExperimentalTime::class)

@@ -1,72 +1,76 @@
+import java.util.*
+
 class Day13 : AdventDay(2022, 13) {
 
-    sealed class Node(var parent : Branch?) {
-        operator fun compareTo(other : Node) : Int =
-            when {
-                this is Branch && other is Branch -> this.compareTo(other)
-                this is Branch && other is Leaf -> this.compareTo(other)
-                this is Leaf && other is Branch -> -1 * other.compareTo(this)
-                this is Leaf && other is Leaf -> this.compareTo(other)
-                else -> {
-                    throw IllegalStateException("Shouldn't be able to get here...")
-                }
-            }
-    }
-    class Leaf(private val data: Int, parent: Branch? = null) : Node(parent) {
-        operator fun compareTo(other: Leaf) : Int = data.compareTo(other.data)
-        fun expand() : Branch = Branch(this.parent) + Leaf(data)
-    }
-    class Branch(parent: Branch? = null, private val children : MutableList<Node> = mutableListOf()) : Node(parent) {
-        operator fun plus(other: Node) : Branch {
-            other.parent = this
-            children.add(other)
-            return this
+    operator fun Node<Int>.compareTo(other : Node<Int>) : Int =
+        when {
+            this is Tree<Int> && other is Tree<Int> -> this.compareTo(other)
+            this is Tree<Int> && other is Leaf<Int> -> this.compareTo(other)
+            this is Leaf<Int> && other is Tree<Int> -> -1 * other.compareTo(this)
+            this is Leaf<Int> && other is Leaf<Int> -> this.compareTo(other)
+            else -> throw IllegalStateException("Shouldn't be able to get here...")
         }
-        operator fun compareTo(right: Branch) : Int {
-            children.zip(right.children).forEach {
-                val comparison = (it.first).compareTo(it.second)
-                if (comparison != 0) {
-                    return comparison
-                }
+
+    operator fun Leaf<Int>.compareTo(other: Leaf<Int>) : Int = value.compareTo(other.value)
+    fun Leaf<Int>.expand() : Tree<Int> = Tree<Int>() + this
+
+    operator fun Tree<Int>.compareTo(other: Leaf<Int>) : Int = compareTo(other.expand())
+
+    operator fun Tree<Int>.compareTo(other: Tree<Int>) : Int {
+        children.zip(other.children).forEach {
+            val comparison = (it.first).compareTo(it.second)
+            if (comparison != 0) {
+                return comparison
             }
-            return children.size.compareTo(right.children.size)
         }
-        operator fun compareTo(other: Leaf) : Int = compareTo(other.expand())
+        return children.size.compareTo(other.children.size)
     }
 
-
-    private fun String.treeParse() : Branch {
+    private fun String.treeParse() : Tree<Int> {
         val regex  = """\[|]|-?\d+""".toRegex()
         val matches = regex.findAll(this)
-        val root = Branch()
-        var currentNode : Branch = root
+        val tree : Stack<Tree<Int>> = Stack()
         for (match in matches) {
-            currentNode = when (match.value) {
+            when (match.value) {
                 "[" -> {
-                    Branch().also {
-                        currentNode + it
+                    val newTree = Tree<Int>()
+                    if (tree.isNotEmpty()) {
+                        tree.peek().add(newTree)
+                    }
+                    tree.push(newTree)
+                }
+                "]" -> {
+                    val newTree = tree.pop()
+                    if (tree.isEmpty()) {
+                        return newTree
                     }
                 }
-                "]" -> currentNode.parent!!
-                else -> currentNode + Leaf(match.value.toInt())
+                else -> tree.peek().add(Leaf(match.value.toInt()))
             }
         }
-        return root
+        return tree.peek()
     }
 
-    private val packets : List<Branch> = lines.filter { it != ""}.map { it.treeParse() }
+    private val packets : List<Tree<Int>> = lines.filter { it != "" }.map { it.treeParse() }
+
+    init {
+        packets.forEach {
+            println(it)
+        }
+    }
 
     override fun part1(): String {
         return packets.chunked(2).withIndex().filter {
             it.value[0] < it.value[1]
         }.sumOf {
+            println("Pair ${it.index + 1}")
             it.index + 1
         }.toString()
     }
 
     override fun part2(): String {
-        val divider1 = Branch() + (Branch() + Leaf(2))
-        val divider2 = Branch() + (Branch() + Leaf(6))
+        val divider1 = Tree<Int>() + (Tree<Int>() + Leaf(2))
+        val divider2 = Tree<Int>() + (Tree<Int>() + Leaf(6))
         val sortedPackets = (packets + listOf(divider1, divider2))
             .toMutableList()
             .sortedWith { o1, o2 ->

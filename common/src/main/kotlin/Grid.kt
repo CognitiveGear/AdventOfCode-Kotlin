@@ -12,6 +12,12 @@ class Grid<T>(val data : List<MutableList<T>>) {
             }
         })
 
+    constructor(rows: Int, cols: Int, init: T) : this(
+        List(cols) {
+            MutableList(rows) { init }
+        }
+    )
+
     init {
         data.drop(1).forEach {
             if (it.size != maxCol) {
@@ -33,7 +39,7 @@ class Grid<T>(val data : List<MutableList<T>>) {
         }
         return false
     }
-    fun containsIndex(p: Point) : Boolean = p.x >= 0 && p.y >= 0 && p.x < maxCol && p.y < maxRow
+    operator fun contains(p: Point) : Boolean = p.x >= 0 && p.y >= 0 && p.x < maxCol && p.y < maxRow
     fun forEachIndexed(action: (Int, Int, T) -> Unit) {
         for (row in 0 until maxRow) {
             for (col in 0 until maxCol) {
