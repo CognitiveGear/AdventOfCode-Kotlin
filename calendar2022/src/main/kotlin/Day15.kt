@@ -3,8 +3,6 @@ import java.lang.Integer.min
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
 import kotlin.math.sign
-import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
 
 class Day15 : AdventDay(2022, 15) {
 
@@ -137,8 +135,8 @@ class Day15 : AdventDay(2022, 15) {
 
     override fun part2(): String {
         val opposingPairs : List<Pair<Point, Point>> =
-            sensors.flatMap { left ->
-                sensors.filter { right ->
+            sensors.asSequence().flatMap { left ->
+                sensors.asSequence().filter { right ->
                     left != right &&
                     (left l1Norm right) == radii[left]!! + radii[right]!!
                 }.map { right ->
@@ -148,7 +146,7 @@ class Day15 : AdventDay(2022, 15) {
                         right to left
                     }
                 }
-            }
+            }.toList()
         fun List<Pair<Point, Point>>.toLineList() : List<Line> {
             return map {
                 val (p, other) =
@@ -169,28 +167,20 @@ class Day15 : AdventDay(2022, 15) {
         val leanRight = opposingPairs.filter {
             it.first.y < it.second.y
         }.toLineList()
-        val intersects = mutableListOf<Point>()
-        leanLeft.forEach { left ->
-            leanRight.forEach { right ->
-                left.intersect(right)?.let {
-                    intersects.add(it)
-                }
+        val result = leanLeft.asSequence().flatMap { left ->
+            leanRight.asSequence().mapNotNull { right ->
+                left.intersect(right)
             }
-        }
-        intersects.removeIf {
+        }.filterNot {
             it.x < 0 || it. y < 0 || it.x > 4000000 || it.y > 4000000 ||
             sensors.any { sensor ->
                 it l1Norm sensor <= radii.getValue(sensor)
             }
-        }
-        return intersects.first().tuning().toString()
+        }.first().tuning().toString()
+        return result
     }
 }
 
-@OptIn(ExperimentalTime::class)
 fun main() {
-    val time = measureTime {
-        Day15().main()
-    }
-    println(time)
+    Day15().main()
 }
