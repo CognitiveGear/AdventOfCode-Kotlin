@@ -27,21 +27,15 @@ class Day12 : AdventDay(2022, 12) {
         }
 
     override fun part1(): String {
-        val dijkstra: Dijkstra<Point> =
-            Dijkstra(
-                ePos,
-                gameGraph,
-            ) { it == sPos }
-        return dijkstra.bestPath.size.let { it - 1 }.toString()
+        return gameGraph.dijkstra(
+            ePos,
+        ) { it == sPos }.bestPath.size.let { it - 1 }.toString()
     }
 
     override fun part2(): String {
-        val dijkstra : Dijkstra<Point> =
-            Dijkstra(
-                    ePos,
-                    gameGraph,
-            ) { inputGrid[it] == 'a' || it == sPos }
-        return dijkstra.bestPath.size.let { it - 1 }.toString()
+        return gameGraph.dijkstra(
+            ePos
+        ) { inputGrid[it] == 'a' || it == sPos }.bestPath.size.let { it - 1 }.toString()
     }
 }
 

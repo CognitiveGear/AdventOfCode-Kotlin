@@ -24,14 +24,14 @@ class Day17 : AdventDay(2022, 17) {
             pos = Point(2, game.topFilled + 4)
         }
 
-        fun canFit(dir: DIR) : Boolean {
+        fun canFit(dir: Dir) : Boolean {
             return space.all {
                 val newPos = pos + it + dir
                 (newPos) in game.grid && game.grid[newPos] != '#'
             }
         }
 
-        fun move(dir: DIR) {
+        fun move(dir: Dir) {
             pos += dir
         }
 
@@ -66,7 +66,7 @@ class Day17 : AdventDay(2022, 17) {
         override val space = setOf(Point(0, 0), Point(1, 0), Point(0, 1), Point(1, 1))
     }
 
-    fun moveSequence() : Sequence<DIR> = sequence {
+    fun moveSequence() : Sequence<Dir> = sequence {
         while(true) {
             for (move in moveList) {
                 yield(move)
@@ -98,7 +98,7 @@ class Day17 : AdventDay(2022, 17) {
                 if (piece.canFit(move)) {
                     piece.move(move)
                 } else {
-                    if (move == DIR.DOWN) {
+                    if (move == Dir.DOWN) {
                         break
                     }
                 }
@@ -130,8 +130,8 @@ class Day17 : AdventDay(2022, 17) {
 
     val moveList = input.flatMap {
         when (it) {
-            '>' -> listOf(DIR.RIGHT, DIR.DOWN)
-            '<' -> listOf(DIR.LEFT, DIR.DOWN)
+            '>' -> listOf(Dir.RIGHT, Dir.DOWN)
+            '<' -> listOf(Dir.LEFT, Dir.DOWN)
             else -> throw IllegalStateException("Bad input")
         }
     }
@@ -161,7 +161,7 @@ class Day17 : AdventDay(2022, 17) {
                         && diff == tetris.hAt(it + 2 * period.len) - offset3
                         && diff == tetris.hAt(it + 3 * period.len) - offset4
             }
-        }
+        }.end
         /*
         found = periodFinder()
          */

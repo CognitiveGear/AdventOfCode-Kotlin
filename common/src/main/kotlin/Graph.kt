@@ -10,29 +10,74 @@ interface Graph<T> {
     operator fun get(pos: T) = neighbors(pos)
     operator fun get(edge: Pair<T, T>) = edgeCost(edge)
 
+    data class DepthFirstResult<T>(
+        val visited: Set<T>,
+        val end: T
+    )
+
+    data class DijkstraResult<T>(
+        val distance: Map<T, Int>,
+        val previous: Map<T, T>,
+        val bestPath: List<T>
+    )
+
     fun depthFirst(
         start : T,
         comparator: Comparator<T>,
         endCondition : (T) -> Boolean
-    ) : T {
+    ) : DepthFirstResult<T> {
         val visited = HashSet<T>()
         val allPos = PriorityQueue(comparator)
         allPos.add(start)
         var current : T = start
+        visited.add(current)
         while (allPos.isNotEmpty()) {
             current = allPos.poll()
-            visited.add(current)
             if (endCondition(current)) {
-                return current
+                return DepthFirstResult(visited, current)
             }
             val frontier = neighbors(current).filter { it !in visited }
             visited.addAll(frontier)
             allPos.addAll(frontier)
         }
-        return current
+        return DepthFirstResult(visited, current)
     }
 
-    fun dijkstra(start: T, endCondition: (T) -> Boolean) : Dijkstra<T> = Dijkstra(start, this, endCondition)
+    fun dijkstra(start: T, endCondition: (T) -> Boolean) : DijkstraResult<T> {
+        val distance : MutableMap<T, Int> = mutableMapOf(start to 0)
+        val previous : MutableMap<T, T> = mutableMapOf()
+        val frontier: PriorityQueue<T> =
+            PriorityQueue(compareBy { distance[it]!! + vertexCost(it) })
+        val distanceThrough : (T, T) -> Int =
+            { current, neighbor -> distance[current]!! + edgeCost(current to neighbor) }
+        frontier.add(start)
+        while (frontier.isNotEmpty() && !endCondition(frontier.peek())) {
+            val current = frontier.poll()
+            frontier.addAll(
+                neighbors(current).filter { neighbor ->
+                    val tentativeDistance = distanceThrough(current, neighbor)
+                    (tentativeDistance < distance.getOrDefault(neighbor, Int.MAX_VALUE)).also {
+                        if (it) {
+                            distance[neighbor] = tentativeDistance
+                            previous[neighbor] = current
+                        }
+                    }
+                }
+            )
+        }
+        if (frontier.isEmpty()) {
+            throw IllegalStateException("Cannot reach end goal, end condition failed for all nodes.")
+        }
+        val bestPath = buildList {
+            var next = frontier.peek()
+            while (next != null) {
+                add(next)
+                next = previous[next]
+            }
+            reverse()
+        }.toList()
+        return DijkstraResult(distance, previous, bestPath)
+    }
 
     fun reduced(subSet : Set<T>) : FiniteGraph<T> {
         val newNeighbors : Map<T, Set<T>> = buildMap {
@@ -51,7 +96,7 @@ interface Graph<T> {
                     mutEnds.isEmpty()
                 }
                 ends.forEach {
-                    set(start to it, dijkstra.distanceTo[it]!!)
+                    set(start to it, dijkstra.distance[it]!!)
                 }
             }
         }

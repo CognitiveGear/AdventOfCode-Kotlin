@@ -7,7 +7,7 @@ class Point(val x: Int, val y: Int) : Collection<Int> {
 
     operator fun plus(arg: Int) = Point(x + arg, y + arg)
     operator fun plus(arg: Point) = Point(x + arg.x, y + arg.y)
-    operator fun plus(dir: DIR) = Point(x + dir.delta.x, y + dir.delta.y)
+    operator fun plus(dir: Dir) = Point(x + dir.delta.x, y + dir.delta.y)
     operator fun minus(arg: Int) = Point(x - arg, y - arg)
     operator fun minus(arg: Point) = Point(x - arg.x, y - arg.y)
     operator fun times(arg: Int) = Point(x * arg, y * arg)
