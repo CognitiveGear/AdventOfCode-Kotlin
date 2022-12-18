@@ -1,12 +1,20 @@
 @file:Suppress("unused")
 
-import kotlin.time.ExperimentalTime
-import kotlin.time.measureTime
-
 class Day12 : AdventDay(2022, 12) {
 
     private val sPos = inputGrid.getPosOf('S').first()
     private val ePos = inputGrid.getPosOf('E').first()
+    private val gameGraph =
+        InfiniteGraph(
+            { current : Point ->
+                current.l1Neighbors().filterTo(HashSet()) {
+                    inputGrid.contains(it) && inputGrid[current].elevation() <= (inputGrid[it].elevation() + 1)
+                }
+            },
+            { 1 },
+            { 0 }
+        )
+
     private fun Char.elevation() : Int =
         if (isLowerCase()) {
             this.code - 'a'.code
@@ -18,37 +26,21 @@ class Day12 : AdventDay(2022, 12) {
             }
         }
 
-    private fun validNeighbors(current : Point) : Sequence<Point> =
-        current.l1Neighbors().filter {
-            inputGrid.contains(it) && inputGrid[current].elevation() <= (inputGrid[it].elevation() + 1)
-        }
-
-    @OptIn(ExperimentalTime::class)
     override fun part1(): String {
-        val dijkstra: Dijkstra<Point>
-        println( measureTime {
-            dijkstra =
-                Dijkstra(
-                    ePos,
-                    ::validNeighbors,
-                    { it == sPos },
-                    vertexCost = { (it l1Norm sPos).toDouble() },
-                )
-        })
+        val dijkstra: Dijkstra<Point> =
+            Dijkstra(
+                ePos,
+                gameGraph,
+            ) { it == sPos }
         return dijkstra.bestPath.size.let { it - 1 }.toString()
     }
 
-    @OptIn(ExperimentalTime::class)
     override fun part2(): String {
-        val dijkstra : Dijkstra<Point>
-        println(measureTime {
-            dijkstra =
-                Dijkstra(
+        val dijkstra : Dijkstra<Point> =
+            Dijkstra(
                     ePos,
-                    ::validNeighbors,
-                    { inputGrid[it] == 'a' || it == sPos },
-                )
-        })
+                    gameGraph,
+            ) { inputGrid[it] == 'a' || it == sPos }
         return dijkstra.bestPath.size.let { it - 1 }.toString()
     }
 }

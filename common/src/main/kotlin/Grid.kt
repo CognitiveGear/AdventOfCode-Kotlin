@@ -6,15 +6,15 @@ class Grid<T>(val data : List<MutableList<T>>) {
     val maxRow : Int = data.size
     val maxCol : Int = data.first().size
     constructor(rows: Int, cols: Int, init: (Int, Int) -> T) : this(
-        List(cols) { row ->
-            MutableList(rows) { col ->
+        List(rows) { row ->
+            MutableList(cols) { col ->
                 init(row, col)
             }
         })
 
     constructor(rows: Int, cols: Int, init: T) : this(
-        List(cols) {
-            MutableList(rows) { init }
+        List(rows) {
+            MutableList(cols) { init }
         }
     )
 

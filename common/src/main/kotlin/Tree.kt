@@ -7,11 +7,8 @@ sealed class Node<T>
  * Custom Tree implementation. Assumes that it has *exclusive* access to children.
  */
 class Tree<T>(val children: MutableList<Node<T>> = mutableListOf())
-    : Node<T>()
+    : Node<T>(), MutableList<Node<T>> by children
 {
-    fun add(node: Node<T>) {
-        children.add(node)
-    }
 
     operator fun plus(node: Node<T>) : Tree<T> {
         children.add(node)

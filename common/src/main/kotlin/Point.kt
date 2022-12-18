@@ -4,8 +4,10 @@ import kotlin.math.absoluteValue
 import kotlin.math.max
 
 class Point(val x: Int, val y: Int) : Collection<Int> {
+
     operator fun plus(arg: Int) = Point(x + arg, y + arg)
     operator fun plus(arg: Point) = Point(x + arg.x, y + arg.y)
+    operator fun plus(dir: DIR) = Point(x + dir.delta.x, y + dir.delta.y)
     operator fun minus(arg: Int) = Point(x - arg, y - arg)
     operator fun minus(arg: Point) = Point(x - arg.x, y - arg.y)
     operator fun times(arg: Int) = Point(x * arg, y * arg)
@@ -17,13 +19,8 @@ class Point(val x: Int, val y: Int) : Collection<Int> {
      * while only travelling across adjacent squares (excluding diagonals).
      */
     infix fun l1Norm(arg: Point) = (x - arg.x).absoluteValue + (y - arg.y).absoluteValue
-    fun l1Neighbors() : Sequence<Point> =
-        sequence {
-            yield(Point(x - 1, y))
-            yield(Point(x + 1, y))
-            yield(Point(x, y - 1))
-            yield(Point(x, y + 1))
-        }
+    fun l1Neighbors(): Set<Point> =
+         setOf(Point(x - 1, y), Point(x + 1, y), Point(x, y - 1), Point(x, y + 1))
 
     /**
      * L-Inf norm, also called the Chebyshev distance. Gives the distance between two points when traveling
@@ -31,17 +28,17 @@ class Point(val x: Int, val y: Int) : Collection<Int> {
      */
     infix fun lInfNorm(arg: Point) = max((x - arg.x).absoluteValue, (y - arg.y).absoluteValue)
 
-    fun lInfNeighbors() : Sequence<Point> =
-        sequence {
-            yield(Point(x - 1, y - 1))
-            yield(Point(x - 1, y))
-            yield(Point(x - 1, y + 1))
-            yield(Point(x, y - 1))
-            yield(Point(x, y + 1))
-            yield(Point(x + 1, y - 1))
-            yield(Point(x + 1, y))
-            yield(Point(x + 1, y + 1))
-        }
+    fun lInfNeighbors(): Set<Point> =
+        setOf(
+            Point(x - 1, y - 1),
+            Point(x - 1, y),
+            Point(x - 1, y + 1),
+            Point(x, y - 1),
+            Point(x, y + 1),
+            Point(x + 1, y - 1),
+            Point(x + 1, y),
+            Point(x + 1, y + 1),
+        )
     /**
      * Will return Greater if this value has any coordinate larger than the argument, but only equal when they
      * are exactly equal.
