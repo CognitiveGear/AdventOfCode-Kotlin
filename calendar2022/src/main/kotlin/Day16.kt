@@ -1,4 +1,3 @@
-import java.util.*
 import kotlin.math.min
 
 class Day16 : AdventDay(2022, 16) {
@@ -18,7 +17,7 @@ class Day16 : AdventDay(2022, 16) {
             valve to (flowRate to connectedTo)
         }
         valveFlowRate = processedLines.associate { it.first to it.second.first }
-        val valveConnectedTo = processedLines.associate { it.first to it.second.second.toSet() }
+        val valveConnectedTo = processedLines.associate { it.first to it.second.second }
         usefulPos = valveFlowRate.filterValues { it > 0 }.keys + start
         tapGraph = InfiniteGraph (
             valveConnectedTo::getValue,
@@ -74,14 +73,15 @@ class Day16 : AdventDay(2022, 16) {
                     .asSequence()
                     .filter { it !in path }
                     .map { path + it }
-                    .filterTo(HashSet()) { it.timeLength <= 30.0 }
+                    .filter { it.timeLength <= 30.0 }
+                    .toList()
             },
             { pair -> tapGraph[pair.first.last to pair.second.last] + 1 },
             { 0 }
         )
         val startPath = Path(start)
         var bestPath = startPath
-        pathGraph.depthFirst(
+        pathGraph.searchBy(
             startPath,
             compareByDescending {
                 path -> path.timeLength
@@ -113,7 +113,7 @@ class Day16 : AdventDay(2022, 16) {
                             .map { newE ->
                                 newH to newE
                             }
-                    }.toSet()
+                    }.toList()
             },
             { edgePair: Pair<Pair<Path, Path>, Pair<Path, Path>> ->
                 val (old, new) = edgePair
@@ -126,7 +126,7 @@ class Day16 : AdventDay(2022, 16) {
         fun Pair<Path, Path>.sum26() : Int {
             return first.sum(26) + second.sum(26)
         }
-        pairGraph.depthFirst(
+        pairGraph.searchBy(
             startPair,
             compareByDescending {
                 min(it.first.timeLength, it.second.timeLength)

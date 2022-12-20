@@ -18,7 +18,7 @@ class Point(val x: Int, val y: Int) : Collection<Int> {
      * Also called the taxicab distance, or Manhattan distance. Gives the distance between two points
      * while only travelling across adjacent squares (excluding diagonals).
      */
-    infix fun l1Norm(arg: Point) = (x - arg.x).absoluteValue + (y - arg.y).absoluteValue
+    infix fun l1(arg: Point) = (x - arg.x).absoluteValue + (y - arg.y).absoluteValue
     fun l1Neighbors(): Set<Point> =
          setOf(Point(x - 1, y), Point(x + 1, y), Point(x, y - 1), Point(x, y + 1))
 
@@ -26,7 +26,7 @@ class Point(val x: Int, val y: Int) : Collection<Int> {
      * L-Inf norm, also called the Chebyshev distance. Gives the distance between two points when traveling
      * across all touching squares (including diagonals).
      */
-    infix fun lInfNorm(arg: Point) = max((x - arg.x).absoluteValue, (y - arg.y).absoluteValue)
+    infix fun lInt(arg: Point) = max((x - arg.x).absoluteValue, (y - arg.y).absoluteValue)
 
     fun lInfNeighbors(): Set<Point> =
         setOf(

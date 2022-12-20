@@ -4,26 +4,9 @@ class Day18 : AdventDay(2022, 18) {
         Voxel(it.grabInts())
     }.toSet()
 
-    data class Voxel(val x: Int, val y: Int, val z: Int) {
+    val neighbors = voxels.associateWith { it.l1Neighbors().filterTo(HashSet()) { neighbor -> neighbor in voxels} }
 
-        constructor(list: List<Int>) : this(list[0], list[1], list[2])
-        fun l1Neighbors() : Set<Voxel> {
-            return setOf(
-                Voxel(x + 1, y, z),
-                Voxel(x - 1, y, z),
-                Voxel(x, y + 1, z),
-                Voxel(x, y - 1, z),
-                Voxel(x, y, z + 1),
-                Voxel(x, y, z - 1),
-            )
-        }
-    }
-
-    val neighbors = voxels.associateWith { it.l1Neighbors().filter { neighbor -> neighbor in voxels}.toSet() }
-
-    override fun part1(): String {
-        return neighbors.values.sumOf { 6 - it.size }.toString()
-    }
+    override fun part1(): String = neighbors.values.sumOf { 6 - it.size }.toString()
 
     override fun part2(): String {
         val xMax = voxels.maxOf { it.x } + 1
@@ -39,12 +22,10 @@ class Day18 : AdventDay(2022, 18) {
             { current ->
                 current.l1Neighbors().filter { next ->
                     next.x in xBound && next.y in yBound && next.z in zBound && next !in voxels
-                }.toSet()
-            },
-            { 1 },
-            { 0 }
+                }
+            }
         )
-        val (water, _) = waterGraph.depthFirst(
+        val (water, _) = waterGraph.searchBy(
             Voxel(xMin, yMin, zMin),
             compareBy { it.x + it.y + it.z }
         ) { false }

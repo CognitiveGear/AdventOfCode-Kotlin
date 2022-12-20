@@ -22,7 +22,7 @@ class Day15 : AdventDay(2022, 15) {
             }
         sensors = numbers.map { it.first }
         beacons = numbers.map { it.second }
-        radii = numbers.associate { it.first to (it.first l1Norm it.second) }
+        radii = numbers.associate { it.first to (it.first l1 it.second) }
     }
 
     private fun IntRange.overlaps(other: IntRange) : Boolean =
@@ -138,7 +138,7 @@ class Day15 : AdventDay(2022, 15) {
             sensors.asSequence().flatMap { left ->
                 sensors.asSequence().filter { right ->
                     left != right &&
-                    (left l1Norm right) == radii[left]!! + radii[right]!!
+                    (left l1 right) == radii[left]!! + radii[right]!!
                 }.map { right ->
                     if (left.x < right.x) {
                         left to right
@@ -174,7 +174,7 @@ class Day15 : AdventDay(2022, 15) {
         }.filterNot {
             it.x < 0 || it. y < 0 || it.x > 4000000 || it.y > 4000000 ||
             sensors.any { sensor ->
-                it l1Norm sensor <= radii.getValue(sensor)
+                it l1 sensor <= radii.getValue(sensor)
             }
         }.first().tuning().toString()
         return result

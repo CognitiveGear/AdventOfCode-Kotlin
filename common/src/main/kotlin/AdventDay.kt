@@ -19,7 +19,9 @@ abstract class AdventDay(val input: String) {
     abstract fun part2() : String
 
     fun main() {
-        println(part1())
-        println(part2())
+        val part1Result = part1()
+        val part2Result = part2()
+        println("part 1 = $part1Result")
+        println("part 2 = $part2Result")
     }
 }

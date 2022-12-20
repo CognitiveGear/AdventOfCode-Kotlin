@@ -116,7 +116,7 @@ class Day17 : AdventDay(2022, 17) {
 
     val periodGraph = InfiniteGraph<Period>(
         {
-            buildSet {
+            buildList {
                 val checkLen = 3 * it.len + it.off + 1
                 if (checkLen < tetris.heightList.size) {
                     add(it.shifter())
@@ -125,7 +125,7 @@ class Day17 : AdventDay(2022, 17) {
                     add(it.longer())
                 }
             }
-        }, { 1 }, { 0 }
+        }
     )
 
     val moveList = input.flatMap {
@@ -145,7 +145,7 @@ class Day17 : AdventDay(2022, 17) {
 
     init {
         play(tetris, 50000)
-        found = periodGraph.depthFirst(
+        found = periodGraph.searchBy(
             Period(minimumPeriodLength, 5),
             compareBy {
                 it.off + it.len

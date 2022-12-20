@@ -7,7 +7,7 @@ class Day12 : AdventDay(2022, 12) {
     private val gameGraph =
         InfiniteGraph(
             { current : Point ->
-                current.l1Neighbors().filterTo(HashSet()) {
+                current.l1Neighbors().filter {
                     inputGrid.contains(it) && inputGrid[current].elevation() <= (inputGrid[it].elevation() + 1)
                 }
             },
@@ -29,13 +29,13 @@ class Day12 : AdventDay(2022, 12) {
     override fun part1(): String {
         return gameGraph.dijkstra(
             ePos,
-        ) { it == sPos }.bestPath.size.let { it - 1 }.toString()
+        ) { it == sPos }.best.size.let { it - 1 }.toString()
     }
 
     override fun part2(): String {
         return gameGraph.dijkstra(
             ePos
-        ) { inputGrid[it] == 'a' || it == sPos }.bestPath.size.let { it - 1 }.toString()
+        ) { inputGrid[it] == 'a' || it == sPos }.best.size.let { it - 1 }.toString()
     }
 }
 

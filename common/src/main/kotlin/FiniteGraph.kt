@@ -1,19 +1,16 @@
-@Suppress("MemberVisibilityCanBePrivate")
+@Suppress("MemberVisibilityCanBePrivate", "unused")
 class FiniteGraph<T>(
-    val neighborMap: Map<T, Set<T>>,
-    val edgeCostMap: Map<Pair<T, T>, Int>,
-    val vertexCostMap: Map<T, Int>?,
+    val neighborMap: Map<T, List<T>>,
+    val edgeCostMap: Map<Pair<T, T>, Int>? = null,
+    val vertexCostMap: Map<T, Int>? = null
 ) : Graph<T> {
-    override fun neighbors(pos: T): Set<T> = neighborMap.getValue(pos)
-    override fun edgeCost(edge: Pair<T, T>) = edgeCostMap.getValue(edge)
+    override fun neighbors(pos: T): List<T> = neighborMap.getValue(pos)
+    override val hasEdgeCost = edgeCostMap != null
+    override fun edgeCost(edge: Pair<T, T>) = edgeCostMap?.getValue(edge) ?: 0
+    override val hasVertexCost = vertexCostMap != null
     override fun vertexCost(pos: T): Int = vertexCostMap?.getValue(pos) ?: 0
 
-    override fun toString() : String {
-        return neighborMap.keys.joinToString("\n") { left ->
-            neighbors(left).joinToString(
-                ", ",
-                "$left: "
-            ) { "$it (${edgeCostMap[left to it]})" }
-        }
+    fun reduced(filterOp : (T) -> Boolean) : FiniteGraph<T> {
+        return reduced(neighborMap.keys.filterTo(HashSet(), filterOp))
     }
 }
