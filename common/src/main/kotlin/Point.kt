@@ -19,17 +19,17 @@ class Point(val x: Int, val y: Int) : Collection<Int> {
      * while only travelling across adjacent squares (excluding diagonals).
      */
     infix fun l1(arg: Point) = (x - arg.x).absoluteValue + (y - arg.y).absoluteValue
-    fun l1Neighbors(): Set<Point> =
-         setOf(Point(x - 1, y), Point(x + 1, y), Point(x, y - 1), Point(x, y + 1))
+    fun l1Neighbors(): List<Point> =
+         listOf(Point(x - 1, y), Point(x + 1, y), Point(x, y - 1), Point(x, y + 1))
 
     /**
      * L-Inf norm, also called the Chebyshev distance. Gives the distance between two points when traveling
      * across all touching squares (including diagonals).
      */
-    infix fun lInt(arg: Point) = max((x - arg.x).absoluteValue, (y - arg.y).absoluteValue)
+    infix fun lInf(arg: Point) = max((x - arg.x).absoluteValue, (y - arg.y).absoluteValue)
 
-    fun lInfNeighbors(): Set<Point> =
-        setOf(
+    fun lInfNeighbors(): List<Point> =
+        listOf(
             Point(x - 1, y - 1),
             Point(x - 1, y),
             Point(x - 1, y + 1),
