@@ -15,7 +15,9 @@ class Voxel(val x: Int, val y: Int, val z: Int) {
             for (dx in -1..1) {
                 for (dy in -1..1) {
                     for (dz in -1..1) {
-                        add(Voxel(x + dx, y + dy, z + dz))
+                        if (x != 0 || y != 0 || z != 0) {
+                            add(Voxel(x + dx, y + dy, z + dz))
+                        }
                     }
                 }
             }

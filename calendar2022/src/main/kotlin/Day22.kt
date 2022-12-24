@@ -8,7 +8,7 @@ class Day22 : AdventDay(2022, 22) {
                 facing.ordinal.toLong()).toString()
     }
 
-    val cardinalDir : List<Dir> = listOf(Dir.RIGHT, Dir.DOWN, Dir.LEFT, Dir.UP)
+    val cardinalDir : List<Dir> = listOf(Dir.E, Dir.S, Dir.W, Dir.N)
     val gameGraph: InfiniteGraph<Turtle>
     val part1Neighbors = mutableMapOf<Turtle, List<Turtle>>()
     val part2Neighbors = mutableMapOf<Turtle, List<Turtle>>()
@@ -42,10 +42,10 @@ class Day22 : AdventDay(2022, 22) {
                     }
                 } else {
                     val part1WrapPos = when (facing) {
-                        Dir.UP -> gameMap.keys.filter { it.x == pos.x }.minBy { it.y }
-                        Dir.DOWN -> gameMap.keys.filter { it.x == pos.x }.maxBy { it.y }
-                        Dir.LEFT -> gameMap.keys.filter { it.y == pos.y }.maxBy { it.x }
-                        Dir.RIGHT -> gameMap.keys.filter { it.y == pos.y}.minBy { it.x }
+                        Dir.N -> gameMap.keys.filter { it.x == pos.x }.minBy { it.y }
+                        Dir.S -> gameMap.keys.filter { it.x == pos.x }.maxBy { it.y }
+                        Dir.W -> gameMap.keys.filter { it.y == pos.y }.maxBy { it.x }
+                        Dir.E -> gameMap.keys.filter { it.y == pos.y}.minBy { it.x }
                         else -> throw IllegalStateException("Shouldn't be possible...")
                     }
                     val wrapChar = gameMap[part1WrapPos]!!
@@ -56,34 +56,34 @@ class Day22 : AdventDay(2022, 22) {
                     }
                     // This cube-wrapping is input dependent
                     val cubeWrap = when {
-                        facing == Dir.LEFT && pos.x == 50 && pos.y in 0 downTo -49 ->
-                            Turtle(Point(0, -100 - (49 + pos.y)), Dir.RIGHT)
-                        facing == Dir.LEFT && pos.x == 50 && pos.y in -50 downTo -99 ->
-                            Turtle(Point(-(pos.y + 50), -100), Dir.DOWN)
-                        facing == Dir.UP && pos.y == -100 && pos.x in 0..49 ->
-                            Turtle(Point(50, -50 - pos.x), Dir.RIGHT)
-                        facing == Dir.LEFT && pos.x == 0 && pos.y in -100 downTo -149 ->
-                            Turtle(Point(50, -149 - pos.y), Dir.RIGHT)
-                        facing == Dir.LEFT && pos.x == 0 && pos.y in -150 downTo -199 ->
-                            Turtle(Point(-pos.y - 100, 0), Dir.DOWN)
-                        facing == Dir.DOWN && pos.x in 0..49 && pos.y == -199 ->
-                            Turtle(Point(pos.x + 100, 0), Dir.DOWN)
-                        facing == Dir.RIGHT && pos.x == 49 && pos.y in -199..-100 ->
-                            Turtle(Point(-pos.y - 100, -149), Dir.UP)
-                        facing == Dir.DOWN && pos.y == -149 && pos.x in 50..99 ->
-                            Turtle(Point(49, -100 - pos.x), Dir.LEFT)
-                        facing == Dir.RIGHT && pos.x == 99 && pos.y in -149..-100 ->
-                            Turtle(Point(149, -pos.y - 149), Dir.LEFT)
-                        facing == Dir.RIGHT && pos.x == 99 && pos.y in -99..-50 ->
-                            Turtle(Point(50 - pos.y, -49), Dir.UP)
-                        facing == Dir.DOWN && pos.y == -49 && pos.x in 100..149 ->
-                            Turtle(Point(99, 50 - pos.x), Dir.LEFT)
-                        facing == Dir.RIGHT && pos.x == 149 && pos.y in -49..0 ->
-                            Turtle(Point(99, -149 - pos.y), Dir.LEFT)
-                        facing == Dir.UP && pos.y == 0 && pos.x in 100..149 ->
-                            Turtle(Point(pos.x - 100, -199), Dir.UP)
-                        facing == Dir.UP && pos.y == 0 && pos.x in 50..99 ->
-                            Turtle(Point(0, -100 - pos.x), Dir.RIGHT)
+                        facing == Dir.W && pos.x == 50 && pos.y in 0 downTo -49 ->
+                            Turtle(Point(0, -100 - (49 + pos.y)), Dir.E)
+                        facing == Dir.W && pos.x == 50 && pos.y in -50 downTo -99 ->
+                            Turtle(Point(-(pos.y + 50), -100), Dir.S)
+                        facing == Dir.N && pos.y == -100 && pos.x in 0..49 ->
+                            Turtle(Point(50, -50 - pos.x), Dir.E)
+                        facing == Dir.W && pos.x == 0 && pos.y in -100 downTo -149 ->
+                            Turtle(Point(50, -149 - pos.y), Dir.E)
+                        facing == Dir.W && pos.x == 0 && pos.y in -150 downTo -199 ->
+                            Turtle(Point(-pos.y - 100, 0), Dir.S)
+                        facing == Dir.S && pos.x in 0..49 && pos.y == -199 ->
+                            Turtle(Point(pos.x + 100, 0), Dir.S)
+                        facing == Dir.E && pos.x == 49 && pos.y in -199..-100 ->
+                            Turtle(Point(-pos.y - 100, -149), Dir.N)
+                        facing == Dir.S && pos.y == -149 && pos.x in 50..99 ->
+                            Turtle(Point(49, -100 - pos.x), Dir.W)
+                        facing == Dir.E && pos.x == 99 && pos.y in -149..-100 ->
+                            Turtle(Point(149, -pos.y - 149), Dir.W)
+                        facing == Dir.E && pos.x == 99 && pos.y in -99..-50 ->
+                            Turtle(Point(50 - pos.y, -49), Dir.N)
+                        facing == Dir.S && pos.y == -49 && pos.x in 100..149 ->
+                            Turtle(Point(99, 50 - pos.x), Dir.W)
+                        facing == Dir.E && pos.x == 149 && pos.y in -49..0 ->
+                            Turtle(Point(99, -149 - pos.y), Dir.W)
+                        facing == Dir.N && pos.y == 0 && pos.x in 100..149 ->
+                            Turtle(Point(pos.x - 100, -199), Dir.N)
+                        facing == Dir.N && pos.y == 0 && pos.x in 50..99 ->
+                            Turtle(Point(0, -100 - pos.x), Dir.E)
                         else -> throw IllegalStateException("Shouldn't get here...")
                     }
                     val cubeChar = gameMap[cubeWrap.pos]!!
@@ -98,7 +98,7 @@ class Day22 : AdventDay(2022, 22) {
         gameGraph = InfiniteGraph({ part1Neighbors[it]!! }, { 1 })
     }
 
-    val startTurtle = Turtle(startPoint, Dir.RIGHT)
+    val startTurtle = Turtle(startPoint, Dir.E)
     val orders = """\d+|\w""".toRegex().findAll(lines.last())
 
     fun followMoveOrders(start: Turtle, neighbors: Map<Turtle, List<Turtle>>) : Turtle {

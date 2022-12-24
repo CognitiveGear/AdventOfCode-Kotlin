@@ -98,7 +98,7 @@ class Day17 : AdventDay(2022, 17) {
                 if (piece.canFit(move)) {
                     piece.move(move)
                 } else {
-                    if (move == Dir.DOWN) {
+                    if (move == Dir.S) {
                         break
                     }
                 }
@@ -130,8 +130,8 @@ class Day17 : AdventDay(2022, 17) {
 
     val moveList = input.flatMap {
         when (it) {
-            '>' -> listOf(Dir.RIGHT, Dir.DOWN)
-            '<' -> listOf(Dir.LEFT, Dir.DOWN)
+            '>' -> listOf(Dir.E, Dir.S)
+            '<' -> listOf(Dir.W, Dir.S)
             else -> throw IllegalStateException("Bad input")
         }
     }
