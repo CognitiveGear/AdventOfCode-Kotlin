@@ -116,13 +116,13 @@ class Day17 : AdventDay(2022, 17) {
 
     val periodGraph = InfiniteGraph<Period>(
         {
-            buildList {
+            sequence {
                 val checkLen = 3 * it.len + it.off + 1
                 if (checkLen < tetris.heightList.size) {
-                    add(it.shifter())
+                    yield(it.shifter())
                 }
                 if (checkLen + 3 < tetris.heightList.size) {
-                    add(it.longer())
+                    yield(it.longer())
                 }
             }
         }

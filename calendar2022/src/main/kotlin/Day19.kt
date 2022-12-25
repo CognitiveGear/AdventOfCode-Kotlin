@@ -65,42 +65,47 @@ class Day19: AdventDay(2022, 19) {
             }
         }
 
-        fun shouldDo(blueprint: BluePrint) : List<Factory> {
-            return buildList {
+        fun shouldDo(blueprint: BluePrint) : Sequence<Factory> {
+            return sequence {
+                var size = 0
                 // Build, but don't overbuild, ore robots
                 if (canDo(DO.ORE, blueprint) && robots[0] < blueprint.maxOreCost) {
-                    add(act(DO.ORE, blueprint))
+                    yield(act(DO.ORE, blueprint))
+                    size++
                 }
                 // Build, but don't overbuild, clay robots
                 if (canDo(DO.CLAY, blueprint) && robots[1] < blueprint.maxClayCost) {
-                    add(act(DO.CLAY, blueprint))
+                    yield(act(DO.CLAY, blueprint))
+                    size++
                 }
                 // If you're at tier 1, and you have all options available, make a choice, don't wait
                 if (robots[1] == 0) {
                     if (size < 2) {
-                        add(act(DO.WAIT, blueprint))
+                        yield(act(DO.WAIT, blueprint))
                     }
-                    return@buildList
+                    return@sequence
                 }
                 // Build, but don't overbuild, obsidian robots
                 if (canDo(DO.OBSI, blueprint) && robots[2] < blueprint.maxObsiCost) {
-                    add(act(DO.OBSI, blueprint))
+                    yield(act(DO.OBSI, blueprint))
+                    size++
                 }
                 // If you're at tier 2, and you have all options available, make a choice, don't wait
                 if (robots[2] == 0) {
                     if (size < 3) {
-                        add(act(DO.WAIT, blueprint))
+                        yield(act(DO.WAIT, blueprint))
                     }
-                    return@buildList
+                    return@sequence
                 }
                 if (canDo(DO.GEOD, blueprint)) {
-                    add(act(DO.GEOD, blueprint))
+                    yield(act(DO.GEOD, blueprint))
+                    size++
                     if (size < 4) {
-                        add(act(DO.WAIT, blueprint))
+                        yield(act(DO.WAIT, blueprint))
                     }
-                    return@buildList
+                    return@sequence
                 }
-                add(act(DO.WAIT, blueprint))
+                yield(act(DO.WAIT, blueprint))
             }
         }
 

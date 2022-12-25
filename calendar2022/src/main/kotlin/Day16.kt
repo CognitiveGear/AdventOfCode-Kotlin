@@ -20,7 +20,7 @@ class Day16 : AdventDay(2022, 16) {
         val valveConnectedTo = processedLines.associate { it.first to it.second.second }
         usefulPos = valveFlowRate.filterValues { it > 0 }.keys + start
         tapGraph = InfiniteGraph (
-            valveConnectedTo::getValue,
+            { it: String -> valveConnectedTo[it]!!.asSequence()},
             { 1 },
             { 0 }
         ).reduced(usefulPos)
@@ -70,11 +70,9 @@ class Day16 : AdventDay(2022, 16) {
         val pathGraph = InfiniteGraph(
             { path : Path ->
                 tapGraph[path.last]
-                    .asSequence()
                     .filter { it !in path }
                     .map { path + it }
                     .filter { it.timeLength <= 30.0 }
-                    .toList()
             },
             { pair -> tapGraph[pair.first.last to pair.second.last] + 1 },
             { 0 }
@@ -100,20 +98,18 @@ class Day16 : AdventDay(2022, 16) {
         val pairGraph = InfiniteGraph(
             { (h, e) ->
                 tapGraph[h.last]
-                    .asSequence()
                     .filter { it !in h && it !in e }
                     .map { h + it }
                     .filter { it.timeLength <= 26.0 }
                     .flatMap { newH ->
                         tapGraph[e.last]
-                            .asSequence()
                             .filter { it !in newH && it !in e }
                             .map { e + it }
                             .filter { it.timeLength <= 26.0 }
                             .map { newE ->
                                 newH to newE
                             }
-                    }.toList()
+                    }
             },
             { edgePair: Pair<Pair<Path, Path>, Pair<Path, Path>> ->
                 val (old, new) = edgePair

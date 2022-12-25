@@ -95,7 +95,7 @@ class Day22 : AdventDay(2022, 22) {
                 }
             }
         }
-        gameGraph = InfiniteGraph({ part1Neighbors[it]!! }, { 1 })
+        gameGraph = InfiniteGraph({ part1Neighbors[it]!!.asSequence() }, { 1 })
     }
 
     val startTurtle = Turtle(startPoint, Dir.E)

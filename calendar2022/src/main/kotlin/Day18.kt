@@ -30,7 +30,7 @@ class Day18 : AdventDay(2022, 18) {
             compareBy { it.x + it.y + it.z }
         ) { false }
         val exposedToWater = voxels
-            .map { it to it.l1Neighbors().intersect(water) }
+            .map { it to it.l1Neighbors().toSet().intersect(water) }
             .filter { it.second.isNotEmpty() }
             .toMap()
         return exposedToWater.values.sumOf { it.size }.toString()

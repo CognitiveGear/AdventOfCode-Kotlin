@@ -4,7 +4,7 @@ class FiniteGraph<T>(
     val edgeCostMap: Map<Pair<T, T>, Int>? = null,
     val vertexCostMap: Map<T, Int>? = null
 ) : Graph<T> {
-    override fun neighbors(pos: T): List<T> = neighborMap.getValue(pos)
+    override fun neighbors(pos: T): Sequence<T> = neighborMap.getValue(pos).asSequence()
     override val hasEdgeCost = edgeCostMap != null
     override fun edgeCost(edge: Pair<T, T>) = edgeCostMap?.getValue(edge) ?: 0
     override val hasVertexCost = vertexCostMap != null

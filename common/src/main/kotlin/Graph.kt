@@ -3,7 +3,7 @@ import kotlin.Comparator
 import kotlin.collections.HashSet
 
 interface Graph<T> {
-    fun neighbors(pos: T) : List<T>
+    fun neighbors(pos: T): Sequence<T>
     val hasEdgeCost: Boolean
     fun edgeCost(edge: Pair<T, T>) : Int
     val hasVertexCost: Boolean
@@ -59,22 +59,27 @@ interface Graph<T> {
         val frontier: PriorityQueue<T> = if (hasVertexCost) {
             PriorityQueue(compareBy { distance[it]!! + vertexCost(it) })
         } else {
-            PriorityQueue(compareBy { distance[it]!! })
+            PriorityQueue(compareBy(distance::getValue))
         }
-        val distanceThrough : (T, T) -> Int =
-            { current, neighbor -> distance[current]!! + edgeCost(current to neighbor) }
         frontier.add(start)
         while (frontier.isNotEmpty() && !endCondition(frontier.peek())) {
             val current = frontier.poll()
             frontier.addAll(
                 neighbors(current).filter { neighbor ->
-                    val tentativeDistance = distanceThrough(current, neighbor)
-                    (tentativeDistance < distance.getOrDefault(neighbor, Int.MAX_VALUE)).also {
-                        if (it) {
-                            distance[neighbor] = tentativeDistance
-                            previous[neighbor] = current
+                    val tentativeDistance = distance[current]!! + edgeCost(current to neighbor)
+                    var replaced = true
+                    distance.merge(neighbor, tentativeDistance) { old, new ->
+                        if (new < old) {
+                            new
+                        } else {
+                            replaced = false
+                            old
                         }
                     }
+                    if (replaced) {
+                        previous[neighbor] = current
+                    }
+                    replaced
                 }
             )
         }
@@ -88,7 +93,7 @@ interface Graph<T> {
                 next = previous[next]
             }
             reverse()
-        }.toList()
+        }
         return Dijkstra(distance, previous, bestPath)
     }
 
@@ -106,9 +111,7 @@ interface Graph<T> {
         var endMinSoFar : Int = endCostUpperBound(start)
         val frontier : PriorityQueue<T> =
             PriorityQueue(
-                compareBy {
-                    endCostUpperBound(it)
-                }
+                compareBy(endCostUpperBound)
             )
         frontier.add(start)
         var current: T

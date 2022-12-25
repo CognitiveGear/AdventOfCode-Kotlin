@@ -46,6 +46,24 @@ fun grabDayInput(year : Int, day: Int) : String =
 
 fun String.grabInts() : List<Int> = Regex("""-?\d+""").findAll(this).toList().map { it.value.toInt() }
 
+fun gcd(a: Int, b: Int) : Int {
+    if (a <= 0 || b <= 0) {
+        throw IllegalArgumentException("Bad arguments to gcd, <= 0")
+    }
+    var p = a
+    var q = b
+    while (q != 0) {
+        val s = q
+        q = p % q
+        p = s
+    }
+    return p
+}
+
+fun lcm(a: Int, b: Int) : Int {
+    return a / gcd(a, b) * b
+}
+
 suspend fun checkOrGetInput(year: Int, day: Int, dataDir: File) : String {
     val dayFileName = String.format("day%02d.txt", day)
     val dataFile = File(dataDir, dayFileName)

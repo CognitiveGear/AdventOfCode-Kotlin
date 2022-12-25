@@ -4,19 +4,19 @@ import kotlin.math.absoluteValue
 @Suppress("unused")
 class Voxel(val x: Int, val y: Int, val z: Int) {
     constructor(list: List<Int>) : this(list[0], list[1], list[2])
-    fun l1Neighbors() : Set<Voxel> {
-        return setOf(
+    fun l1Neighbors(): Sequence<Voxel> {
+        return sequenceOf(
             Voxel(x + 1, y, z), Voxel(x - 1, y, z), Voxel(x, y + 1, z),
             Voxel(x, y - 1, z), Voxel(x, y, z + 1), Voxel(x, y, z - 1),
         )
     }
-    fun lInfNeighbors() : Set<Voxel> {
-        return buildSet {
+    fun lInfNeighbors(): Sequence<Voxel> {
+        return sequence {
             for (dx in -1..1) {
                 for (dy in -1..1) {
                     for (dz in -1..1) {
                         if (x != 0 || y != 0 || z != 0) {
-                            add(Voxel(x + dx, y + dy, z + dz))
+                            yield(Voxel(x + dx, y + dy, z + dz))
                         }
                     }
                 }
