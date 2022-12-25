@@ -15,8 +15,11 @@ the main classes + configurations yourself.
 
 ### TODO
 
-- Automatic submission of answers.
-- All the rest of the days.
+- Nothing! All days complete. I thought about building an auto-submitter, but eventually sided against it for two reasons:
+    1. The time it takes to type in the answer into the submit box is not the limiting factor for how fast you can do
+        Advent of Code
+    2. The AoC website has (reasonable) time limits on wrong submissions that change over time, and any reasonable
+        submission system would have to integrate those limits into itself somehow.
 
 [aoc]: https://adventofcode.com
 [ad]: https://github.com/CognitiveGear/AdventOfCode-Kotlin/tree/common/src/main/kotlin/AdventDay.kt
