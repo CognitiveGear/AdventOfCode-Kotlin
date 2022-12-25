@@ -6,7 +6,7 @@ now download the appropriate day input (IF the time is right, AND you've provide
 sessionToken.txt' inside $WORKING-DIRECTORY$/data, AND if that day's input does not already exist inside that same data
 subdirectory).
 
-The kotlin/ktor web-scraper used to grab the input can also be run < 100 seconds before release, and it will wait for
+The kotlin/ktor web-scraper used to grab the input can also be run < 600 seconds before release, and it will wait for
 the clock to hit midnight EST before grabbing them. The downloader has a small semi-random additional delay,
 to limit initial AoC server congestion.
 
